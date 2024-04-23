@@ -9,7 +9,7 @@ library(ggsci)       # For scientific journal style plots
 pheno_htt <- read.csv("path/to/pheno_htt.csv")
 
 # Prepare survival objects
-pheno_htt$surv_object <- as.numeric(pheno_htt$Onset_death_weeks)
+pheno_htt$surv_object <- as.numeric(pheno_htt$Diagnosis_death)
 pheno_htt$status_surv <- ifelse(pheno_htt$Status == "Death", 1, 0)
 
 # Define HTT intermediate expansion
