@@ -1,0 +1,12 @@
+subject_id (factor): unique identifier for each subject included in the study
+HTT_CAG (numeric): number of CAG repeats in the HTT gene as measured by ExpansionHunter—Targeted software (version 3.0.1) 
+Sex (factor): "Male", "Female" 
+Age (numeric): age at disease onset (years)
+Diagnostic_delay (numeric): time elapsed from symptom onset to ALS diagnosis (months)
+El_Escorial (factor): diagnostic certainty based on the El Escorial criteria; values are "Definite", "Probable", "Possible"
+FVC (numeric): Forced Vital Capacity at diangnosis (%)
+ALSFRS (numeric): ALSFRS-R score at diagnosis; range 1-48
+ALSFRS_Decline (numeric):  rate of ALS progression at diangnosis, calculated as (48-ALSFRS)/Diagnostic_Delay)
+FTD (factor):  subject has been diagnosed with Frontotemporal Dementia (FTD); valures are "FTD", "non_FTD"
+Diagnosis_death (numeric): time from diagnosis to death or censoring date (months)
+Status (factor): survival status; values are "Death", "Censored"
