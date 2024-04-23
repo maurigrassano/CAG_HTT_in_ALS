@@ -1,0 +1,45 @@
+# Code used for the statistical analysis and survival curve plotting in the PARALS cohort
+
+# Load necessary libraries
+library(survival)    # For survival analysis
+library(ggplot2)     # For plotting
+library(ggsci)       # For scientific journal style plots
+
+# Read the dataset
+pheno_htt <- read.csv("path/to/pheno_htt.csv")
+
+# Prepare survival objects
+pheno_htt$surv_object <- as.numeric(pheno_htt$Onset_death_weeks)
+pheno_htt$status_surv <- ifelse(pheno_htt$Status == "Death", 1, 0)
+
+# Define HTT intermediate expansion
+pheno_htt$HTT_INTERMEDIATE <- ifelse((pheno_htt$HTT_CAG > 26 & pheno_htt$HTT_CAG < 36), "YES", "NO")
+
+# Perform survival analysis
+km_intermediate_HTT <- survfit(Surv(surv_object, status_surv) ~ HTT_INTERMEDIATE, data = pheno_htt)
+autoplot(km_intermediate_HTT)  # Plot the Kaplan-Meier survival curves
+
+# Cox proportional hazards model
+cox_intermediate_HTT  <- coxph(Surv(surv_object, status_surv) ~ HTT_INTERMEDIATE + Age + Sex + FVC + ALSFRS_Decline + Diagnostic_delay + El_Escorial, data = pheno_htt[pheno_htt$OTHER_MUT == 1,])
+summary(cox_intermediate_HTT)  # Display the summary of the Cox model
+
+# Plotting survival curves using ggsci for scientific journal style
+ggsurv_plot <- ggsurvplot(km_intermediate_HTT,
+                          pval = FALSE, 
+                          conf.int = FALSE, # Remove confidence intervals
+                          ggtheme = theme_bw() +  # Base theme adjustments
+                            theme(panel.grid.major = element_blank(), 
+                                  panel.grid.minor = element_blank(), # Clean up background grid
+                                  panel.border = element_blank(), 
+                                  panel.spacing = unit(0, "lines"), 
+                                  axis.line = element_line(colour = "black"),
+                                  text = element_text(size = 14),
+                                  axis.title = element_text(size = 16),
+                                  axis.text = element_text(size = 14),
+                                  legend.title = element_text(size = 16),
+                                  legend.text = element_text(size = 14)),
+                          legend.title = element_blank(),
+                          legend.labs = c("HTT < 27", "HTT CAG 27-35"),
+                          palette = "nejm",
+                          xlab = "Survival time (months)")
+print(ggsurv_plot)  # Display the plot
