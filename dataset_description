@@ -1,3 +1,5 @@
+Description of the pheno_htt (PARALS cohort) dataset
+
 subject_id (factor): unique identifier for each subject included in the study
 HTT_CAG (numeric): number of CAG repeats in the HTT gene as measured by ExpansionHunter—Targeted software (version 3.0.1) 
 Sex (factor): "Male", "Female" 
